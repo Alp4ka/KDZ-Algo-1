@@ -93,6 +93,36 @@ public:
     }
 
     /**
+        Save arrays.
+    */
+    void saveArrays(const std::string &input_arrays_path, const std::string &output_arrays_path) {
+        std::ofstream input_arrays_fout(input_arrays_path);
+        for (const auto &row: rows_) {
+            for (const auto &array_type: types_) {
+                input_arrays_fout << row.size() << kSeparator;
+                input_arrays_fout << array_type.second << kSeparator;
+                saveLine(input_arrays_fout, row.getArrays().at(array_type.first), true);
+            }
+        }
+        input_arrays_fout.close();
+
+        std::ofstream output_arrays_fout(output_arrays_path);
+        for (const auto &row: rows_) {
+            output_arrays_fout << row.size() << kSeparator;
+            for (const auto &array_type: types_) {
+                input_arrays_fout << row.size() << kSeparator;
+                output_arrays_fout << array_type.second << kSeparator;
+                std::vector<int> sorted = std::vector<int>(
+                        row.getArrays().at(array_type.first).begin(),
+                        row.getArrays().at(array_type.first).end());
+                std::sort(sorted.begin(), sorted.end());
+                saveLine(output_arrays_fout, sorted, true);
+            }
+        }
+        output_arrays_fout.close();
+    }
+
+    /**
         Save all CalculationRow objects added to rows_ as a .csv table.
         Format: one row = CalculationRow data.
         @param path path to a future .csv file.

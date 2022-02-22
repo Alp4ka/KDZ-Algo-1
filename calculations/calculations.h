@@ -32,7 +32,7 @@ private:
     std::map<ArrayType, std::vector<int>> arrays_;
 
     // Stores the timestamps of algorithms.
-    std::map<std::string, std::map<ArrayType, double>> results_;
+    std::map<std::string, std::map<ArrayType, int64_t>> results_;
 
     // Mapping kind of sort_name -> pointer_to_a_function
     std::map<std::string, CalculationRow::SortFunction> sorts_
@@ -63,21 +63,35 @@ public:
     }
 
     /**
+        Checks whether the array is sorted.
+        @param array - array to check.
+        @return true in case the vector is sorted.
+    */
+    static bool isSorted(std::vector<int>* array) {
+        for (int index = 0; index < array->size() - 1; ++index) {
+            if ((*array)[index] > (*array)[index + 1]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
         Runs sort with a specified type of array.
         @param sort - sort function to run with.
         @param array_type - array type we want to sort.
         @return seconds spent on a sort algorithm.
     */
-    double run(SortFunction sort, ArrayType array_type) {
+    int64_t run(SortFunction sort, ArrayType array_type) {
         std::vector<int> vector_to_sort = std::vector<int>(arrays_[array_type]);
-        auto start_time = std::chrono::system_clock::now();
+        auto start_time = std::chrono::high_resolution_clock::now();
         sort(&vector_to_sort);
-        auto finish_time = std::chrono::system_clock::now();
-        std::chrono::duration<double> difference = finish_time - start_time;
-        if (!std::is_sorted(vector_to_sort.begin(), vector_to_sort.end())) {
+        auto finish_time = std::chrono::high_resolution_clock::now();
+        auto difference = finish_time - start_time;
+        if (!isSorted(&vector_to_sort)) {
             throw std::exception("Failed to sort array!");
         }
-        return difference.count();
+        return std::chrono::duration_cast<std::chrono::nanoseconds>(difference).count();
     }
 
     /**
@@ -107,8 +121,16 @@ public:
         another mapping kind of ArrayType.value -> double(time spent on a sort algorithm of
         the specified array).
     */
-    const std::map<std::string, std::map<ArrayType, double>> &getResults() const {
+    const std::map<std::string, std::map<ArrayType, int64_t>> &getResults() const {
         return results_;
+    }
+
+    /**
+        Get input arrays.
+        @return mapping of ArrayType.value -> std::vector<int> type.
+    */
+    const std::map<ArrayType, std::vector<int>> &getArrays() const {
+        return arrays_;
     }
 
     /**
