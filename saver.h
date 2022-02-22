@@ -12,12 +12,18 @@
 #include "calculations/calculations.h"
 #include "sorts/sorts.h"
 
+/**
+    Saves results of calculations as a .csv file.
+*/
 class Saver {
 private:
+    // Separator for csv.
     static const char kSeparator = ',';
 
+    // Rows we want to save.
     std::vector<CalculationRow> rows_;
 
+    // Sorts we want to use in statistics.
     std::vector<std::string> sorts_ =
             {
                     SELECTION_SORT,
@@ -34,6 +40,7 @@ private:
                     HEAP_SORT,
             };
 
+    // Mapping that specifies relations between ArrayType and its string representation.
     std::map<ArrayType, std::string> types_ = {
             {RANDOM_VALUES_0_5,    " - 0 to 5"},
             {RANDOM_VALUES_0_4000, " - 0 to 4000"},
@@ -41,6 +48,10 @@ private:
             {REVERSED_SORTED,      " - reversed"}
     };
 
+    /**
+        Generates header using types_.first and sorts_.
+        @return vector with headers of future table.
+    */
     std::vector<std::string> generateHeader() {
         std::vector<std::string> result;
         result.emplace_back("Array size");
@@ -52,6 +63,13 @@ private:
         return result;
     }
 
+    /**
+        Saves vector as a row to a specified ofstream object.
+        @tparam T type of vector containing.
+        @param fout ofstream object.
+        @param data vector we want to save.
+        @param endline indicates whether we have to put \n to the end of row.
+    */
     template<class T>
     static void saveLine(std::ofstream &fout, std::vector<T> data, bool endline = false) {
         for (int i = 0; i < data.size(); ++i) {
@@ -66,10 +84,19 @@ public:
     Saver() {
     }
 
+    /**
+        Adds CalculationRow object to a future file.
+        @param calculation CalculationRow object.
+    */
     void add(const CalculationRow &calculation) {
         rows_.push_back(calculation);
     }
 
+    /**
+        Save all CalculationRow objects added to rows_ as a .csv table.
+        Format: one row = CalculationRow data.
+        @param path path to a future .csv file.
+    */
     void save(const std::string &path) {
         std::ofstream file_output(path);
         saveLine(file_output, generateHeader(), true);

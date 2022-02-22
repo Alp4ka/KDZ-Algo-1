@@ -7,6 +7,12 @@
 #include <vector>
 #include <utility>
 
+/**
+    Quick Sort that uses the Lomuto partition.
+    @param array std::vector<int> pointer to array we want to sort.
+    @param from indicates the start point for current iteration.
+    @param to indicates the end point for current iteration.
+*/
 void quickSortRecursiveLomuto(std::vector<int> *array, int from, int to) {
     if ((from < to) && (from > -1)) {
         int pivot_value = (*array)[to];
@@ -23,6 +29,10 @@ void quickSortRecursiveLomuto(std::vector<int> *array, int from, int to) {
     }
 }
 
+/**
+    Wrapper for Quick Sort that uses the Lomuto partition.
+    @param array std::vector<int> pointer to array we want to sort.
+*/
 void quickSortLomuto(std::vector<int> *array) {
     quickSortRecursiveLomuto(array, 0, array->size() - 1);
 }

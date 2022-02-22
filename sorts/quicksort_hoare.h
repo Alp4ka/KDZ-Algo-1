@@ -7,7 +7,12 @@
 #include <vector>
 #include <utility>
 
-
+/**
+    Quick Sort that uses the Hoare partition.
+    @param array std::vector<int> pointer to array we want to sort.
+    @param from indicates the start point for current iteration.
+    @param to indicates the end point for current iteration.
+*/
 void quickSortHoareRecursive(std::vector<int> *array, int from, int to) {
     int i = from;
     int j = to;
@@ -40,6 +45,10 @@ void quickSortHoareRecursive(std::vector<int> *array, int from, int to) {
     }
 }
 
+/**
+    Wrapper for Quick Sort that uses the Hoare partition.
+    @param array std::vector<int> pointer to array we want to sort.
+*/
 void quickSortHoare(std::vector<int> *array) {
     quickSortHoareRecursive(array, 0, array->size() - 1);
 }

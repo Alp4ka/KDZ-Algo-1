@@ -16,14 +16,25 @@
 #include "sorts/sorts.h"
 #include "definitions.h"
 
+/**
+    Class representation of table row. Contains timestamps of all types of defined sort algorithms
+    of all specified type of arrays.
+*/
 class CalculationRow {
 public:
     typedef void (*SortFunction)(std::vector<int> *);
 
 private:
+    // Vector size.
     int vector_size;
+
+    // Arrays we want to test our algorithms on.
     std::map<ArrayType, std::vector<int>> arrays_;
+
+    // Stores the timestamps of algorithms.
     std::map<std::string, std::map<ArrayType, double>> results_;
+
+    // Mapping kind of sort_name -> pointer_to_a_function
     std::map<std::string, CalculationRow::SortFunction> sorts_
             {
                     {SELECTION_SORT,          selectionSort},
@@ -51,6 +62,12 @@ public:
         }
     }
 
+    /**
+        Runs sort with a specified type of array.
+        @param sort - sort function to run with.
+        @param array_type - array type we want to sort.
+        @return seconds spent on a sort algorithm.
+    */
     double run(SortFunction sort, ArrayType array_type) {
         std::vector<int> vector_to_sort = std::vector<int>(arrays_[array_type]);
         auto start_time = std::chrono::system_clock::now();
@@ -63,6 +80,10 @@ public:
         return difference.count();
     }
 
+    /**
+        Starts calculation algorithm. Runs sort algorithms on a different types of arrays and
+        sets its time results in results_ mapping.
+    */
     void start() {
         for (const auto &sorts_pair: sorts_) {
             for (int array_type = ArrayType::RANDOM_VALUES_0_5;
@@ -73,14 +94,27 @@ public:
         }
     }
 
+    /**
+        Clears array in purpose to save the memory.
+    */
     void clear() {
         arrays_.clear();
     }
 
+    /**
+        Get results of calculation.
+        @return mapping where keys are sorts names defined in sorts/sorts.h and values are
+        another mapping kind of ArrayType.value -> double(time spent on a sort algorithm of
+        the specified array).
+    */
     const std::map<std::string, std::map<ArrayType, double>> &getResults() const {
         return results_;
     }
 
+    /**
+        Returns vector size for the current calculation.
+        @return vector size for the current calculation.
+    */
     int size() const {
         return vector_size;
     }

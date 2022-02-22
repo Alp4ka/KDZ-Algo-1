@@ -2,6 +2,9 @@
 #include "saver.h"
 #include <vector>
 
+/*
+ * Start analytics.
+ */
 std::vector<CalculationRow> calculate(int start_from, int end_with, int diff) {
     std::vector<CalculationRow> result;
     for (int number_of_elements = start_from; number_of_elements <= end_with;
@@ -15,7 +18,7 @@ std::vector<CalculationRow> calculate(int start_from, int end_with, int diff) {
 }
 
 int main() {
-    std::vector<CalculationRow> calculations = calculate(100000, 100000, 0);
+    std::vector<CalculationRow> calculations = calculate(1000, 1400, 10);
     Saver firstSaver;
     for (const auto &calculation: calculations) {
         firstSaver.add(calculation);

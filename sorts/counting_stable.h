@@ -6,12 +6,15 @@
 #include <iostream>
 #include <vector>
 
-
+/**
+    Counting sort (stable).
+    @param array std::vector<int> pointer to array we want to sort.
+*/
 void countingSort(std::vector<int> *list) {
     if (list->size() <= 1) {
         return;
     }
-    // Ищем макс. и мин. элементы.
+    // Searching for minimal and maximal elements in existing array.
     int max_element = (*list)[0];
     int min_element = (*list)[0];
     for (int i = 1; i < list->size(); ++i) {
@@ -22,9 +25,10 @@ void countingSort(std::vector<int> *list) {
             min_element = (*list)[i];
         }
     }
-    // Сортируем.
+    // Solves the case when the difference between min and max is too big.
     int storage_size = std::abs(max_element - min_element) + 1;
     int *count_storage = new int[storage_size]{};
+    // Sorting.
     for (int i = 0; i < list->size(); ++i) {
         ++count_storage[(*list)[i] - min_element];
     }

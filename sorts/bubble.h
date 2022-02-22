@@ -7,6 +7,10 @@
 #include <vector>
 #include <utility>
 
+/**
+    Bubble sort.
+    @param array std::vector<int> pointer to array we want to sort.
+*/
 void bubbleSort(std::vector<int> *array) {
     for (int i = 0; i < array->size() - 1; ++i) {
         for (int j = i + 1; j < array->size(); ++j) {

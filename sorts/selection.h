@@ -7,10 +7,15 @@
 #include <vector>
 #include <utility>
 
+/**
+    Selection Sort.
+    @param array std::vector<int> pointer to array we want to sort.
+*/
 void selectionSort(std::vector<int> *array) {
     int local_minimum_index;
     for (int outer_index = 0; outer_index < array->size() - 1; ++outer_index) {
         local_minimum_index = outer_index;
+        // Selection algorithm.
         for (int inner_index = outer_index + 1; inner_index < array->size(); ++inner_index) {
             if ((*array)[inner_index] < (*array)[local_minimum_index]) {
                 local_minimum_index = inner_index;

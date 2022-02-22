@@ -7,24 +7,33 @@
 #include <vector>
 #include <utility>
 
-int64_t getMax(std::vector<int> *array) {
+/**
+    Get maximal element from specified array.
+    @param array std::vector<int> pointer to array we want to sort.
+    @return value of maximal element.
+*/
+int getMax(std::vector<int> *array) {
     int temp_max = (*array)[0];
-    for (int i = 0; i < array->size(); ++i) {
-        if ((*array)[i] > temp_max) {
-            temp_max = (*array)[i];
+    for (int i : *array) {
+        if (i > temp_max) {
+            temp_max = i;
         }
     }
     return temp_max;
 }
 
+/**
+    Radix Sort.
+    @param array std::vector<int> pointer to array we want to sort.
+*/
 void radixSort(std::vector<int> *array) {
     int *temp_array = new int[array->size()];
     int del = 1;
     int64_t max = getMax(array);
     while (max > del) {
         std::vector<int> counter(256);
-        for (int i = 0; i < array->size(); ++i) {
-            counter[(*array)[i] / del % 256]++;
+        for (int i : *array) {
+            counter[i / del % 256]++;
         }
         for (int i = 1; i < 256; ++i) {
             counter[i] += counter[i - 1];
