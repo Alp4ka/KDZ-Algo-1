@@ -67,7 +67,7 @@ public:
         @param array - array to check.
         @return true in case the vector is sorted.
     */
-    static bool isSorted(std::vector<int>* array) {
+    static bool isSorted(std::vector<int> *array) {
         for (int index = 0; index < array->size() - 1; ++index) {
             if ((*array)[index] > (*array)[index + 1]) {
                 return false;

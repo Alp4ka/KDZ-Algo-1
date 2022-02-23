@@ -39,7 +39,8 @@ static std::vector<int> generateRandomVector(size_t amount,
     @param probability - natural value specifies the probability of swap action.
     @return array(vector) of specified amount with random ints.
 */
-static std::vector<int> generateHalfSortVector(int amount, int lower_bound, int delta, int probability) {
+static std::vector<int>
+generateHalfSortVector(int amount, int lower_bound, int delta, int probability) {
     srand(time(nullptr));
     int chosen_probability;
     std::vector<int> array;

@@ -14,7 +14,7 @@
 */
 int getMax(std::vector<int> *array) {
     int temp_max = (*array)[0];
-    for (int i : *array) {
+    for (int i: *array) {
         if (i > temp_max) {
             temp_max = i;
         }
@@ -32,7 +32,7 @@ void radixSort(std::vector<int> *array) {
     int64_t max = getMax(array);
     while (max > del) {
         std::vector<int> counter(256);
-        for (int i : *array) {
+        for (int i: *array) {
             counter[i / del % 256]++;
         }
         for (int i = 1; i < 256; ++i) {
